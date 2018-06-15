@@ -7,7 +7,7 @@ package cn.yznu.basicframework.receiver.netstatereceiver;
  * 版本：1.0
  * 修订历史：
  */
-interface NetChangeObserver {
+public interface NetChangeObserver {
     /**
      * 网络连接回调 type为网络类型
      */

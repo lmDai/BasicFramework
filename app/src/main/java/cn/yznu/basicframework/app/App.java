@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.multidex.MultiDex;
 
+import cn.yznu.apt.InstanceFactory;
 import cn.yznu.basicframework.receiver.netstatereceiver.NetStateReceiver;
 import cn.yznu.basicframework.service.InitializeService;
+import cn.yznu.basicframework.utils.instance.IFactory;
+import cn.yznu.basicframework.utils.instance.InstanceUtil;
 
 import static java.lang.System.exit;
 
@@ -45,13 +48,12 @@ public class App extends Application {
         MultiDex.install(this);
         //在子线程中完成其他初始化
         InitializeService.start(this);
-        //初始化
-//        InstanceUtil.init(new IFactory() {
-//            @Override
-//            public Object create(Class clazz) throws Exception {
-//                return InstanceFactory.create(clazz);
-//            }
-//        });
+        InstanceUtil.init(new IFactory() {
+            @Override
+            public Object create(Class clazz) throws Exception {
+                return InstanceFactory.create(clazz);
+            }
+        });
         //网络状态监听
         NetStateReceiver.registerNetworkStateReceiver(this);//初始化网络监听
     }

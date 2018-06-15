@@ -8,4 +8,5 @@ package cn.yznu.basicframework.base;
  * 修订历史：
  */
 public interface BaseView {
+    void showErrorTip(String msg);
 }

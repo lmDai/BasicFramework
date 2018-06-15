@@ -1,13 +1,33 @@
 package cn.yznu.basicframework;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+import cn.yznu.basicframework.base.BaseActivity;
+import cn.yznu.basicframework.ui.contract.LoginContract;
+import cn.yznu.basicframework.ui.model.LoginModel;
+import cn.yznu.basicframework.ui.presenter.LoginPresenter;
+
+
+public class MainActivity extends BaseActivity<LoginPresenter, LoginModel> implements LoginContract.View {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void getBundleExtras(Bundle extras) {
+
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
+        if (mPresenter != null)
+            mPresenter.login();
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
     }
 }

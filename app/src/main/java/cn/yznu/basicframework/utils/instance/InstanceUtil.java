@@ -18,12 +18,13 @@ public class InstanceUtil {
 
     public static <T> T getInstance(Object o, int i) {
         try {
-            Class mClass = (Class<T>) ((ParameterizedType) o.getClass().getGenericSuperclass()).getActualTypeArguments()[i];
+            Class mClass = (Class<T>) ((ParameterizedType) (o.getClass()
+                    .getGenericSuperclass())).getActualTypeArguments()[i];
             return (T) iFactory.create(mClass);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-
     }
 }
