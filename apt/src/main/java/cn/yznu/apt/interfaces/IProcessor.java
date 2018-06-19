@@ -6,8 +6,11 @@ import cn.yznu.apt.AnnotationProcessor;
 
 
 /**
- * 作者：潇湘夜雨 on 2018/2/2.
- * 邮箱：879689064@qq.com
+ * 作者：uiho_mac
+ * 时间：2018/6/14
+ * 描述：apt
+ * 版本：1.0
+ * 修订历史：
  */
 
 public interface IProcessor {

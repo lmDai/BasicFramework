@@ -24,7 +24,7 @@ dependencies {
     })
     testImplementation 'junit:junit:4.12'
     annotationProcessor project(':apt')
-    compile project(':anno')
+    implementation project(':anno')
     implementation rootProject.ext.dependencies["constraint"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["recyclerview"]
