@@ -2,6 +2,7 @@ package cn.yznu.basicframework.base.rxbase;
 
 import android.content.Context;
 
+import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.app.App;
 import cn.yznu.basicframework.utils.NetWorkUtils;
 import io.reactivex.subscribers.DisposableSubscriber;
@@ -20,6 +21,7 @@ protected void _onError(String message) {
 
         }
         });*/
+
 /**
  * 作者：uiho_mac
  * 时间：2018/6/14
@@ -31,28 +33,31 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
 
     private Context mContext;
     private String msg;
-    private boolean showDialog=true;
+    private boolean showDialog = true;
 
     /**
      * 是否显示浮动dialog
      */
     public void showDialog() {
-        this.showDialog= true;
+        this.showDialog = true;
     }
+
     public void hideDialog() {
-        this.showDialog= true;
+        this.showDialog = true;
     }
 
     public RxSubscriber(Context context, String msg, boolean showDialog) {
         this.mContext = context;
         this.msg = msg;
-        this.showDialog=showDialog;
+        this.showDialog = showDialog;
     }
+
     public RxSubscriber(Context context) {
-//        this(context, App.getAppContext().getString(R.string.loading),true);
+        this(context, App.getAppContext().getString(R.string.loading), true);
     }
+
     public RxSubscriber(Context context, boolean showDialog) {
-//        this(context, App.getAppContext().getString(R.string.loading),showDialog);
+        this(context, App.getAppContext().getString(R.string.loading), showDialog);
     }
 
     @Override
@@ -60,6 +65,7 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
 //        if (showDialog)
 //            LoadingDialog.cancelLoadingDialog();
     }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -77,22 +83,24 @@ public abstract class RxSubscriber<T> extends DisposableSubscriber<T> {
     public void onNext(T t) {
         _onNext(t);
     }
+
     @Override
     public void onError(Throwable e) {
         if (showDialog)
 //            LoadingDialog.cancelLoadingDialog();
-        e.printStackTrace();
+            e.printStackTrace();
         //网络
         if (!NetWorkUtils.isNetConnected(App.getAppContext())) {
-//            _onError(App.getAppContext().getString(R.string.no_net));
+            _onError(App.getAppContext().getString(R.string.no_net));
         }
         //服务器
         else if (e instanceof ServerException) {
             _onError(e.getMessage());
-        }
-        //其它
+        } else if (e instanceof ApiException) {//服务器返回状态码判断，主要用于判断是否登陆失效
+            _onError(e.getMessage());
+        }//其它
         else {
-//            _onError(App.getAppContext().getString(R.string.net_error));
+            _onError(App.getAppContext().getString(R.string.net_error));
         }
     }
 

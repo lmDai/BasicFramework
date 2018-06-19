@@ -6,7 +6,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
@@ -20,6 +19,7 @@ import cn.yznu.basicframework.receiver.netstatereceiver.NetChangeObserver;
 import cn.yznu.basicframework.receiver.netstatereceiver.NetStateReceiver;
 import cn.yznu.basicframework.utils.StatusBarCompat;
 import cn.yznu.basicframework.utils.instance.InstanceUtil;
+import me.yokeyword.fragmentation.SupportActivity;
 
 /**
  * 作者：uiho_mac
@@ -28,7 +28,7 @@ import cn.yznu.basicframework.utils.instance.InstanceUtil;
  * 版本：1.0
  * 修订历史：
  */
-public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel> extends SupportActivity {
     protected final String TAG = this.getClass().getSimpleName();
     public Toolbar mToolbar;
     public TextView title;

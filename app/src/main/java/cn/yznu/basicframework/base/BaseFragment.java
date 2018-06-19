@@ -2,7 +2,6 @@ package cn.yznu.basicframework.base;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import butterknife.Unbinder;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.utils.StatusBarCompat;
 import cn.yznu.basicframework.utils.instance.InstanceUtil;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * 作者：uiho_mac
@@ -24,7 +24,7 @@ import cn.yznu.basicframework.utils.instance.InstanceUtil;
  * 修订历史：
  */
 
-public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel> extends Fragment {
+public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel> extends SupportFragment {
     public Toolbar mToolbar;
     public TextView title;
     public View back;

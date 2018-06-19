@@ -1,5 +1,7 @@
 package cn.yznu.basicframework.model.http;
 
+import cn.yznu.basicframework.base.BaseResponse;
+import cn.yznu.basicframework.model.bean.TestBean;
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
 
@@ -11,6 +13,6 @@ import retrofit2.http.GET;
  * 修订历史：
  */
 public interface ApiService {
-    @GET("system/listDict")
-    Flowable<Object> getListDict();
+    @GET("system/sendCodeGovernment")
+    Flowable<BaseResponse<TestBean>> getListDict();
 }

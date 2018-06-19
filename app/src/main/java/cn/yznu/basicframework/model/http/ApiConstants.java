@@ -10,4 +10,6 @@ package cn.yznu.basicframework.model.http;
 public class ApiConstants {
 
     public static final String BASEURL = "http://222.177.124.26:8888/rural_tourism_api/";
+    public static final String BUNDLE="bundle";
+    public static final String OPEN_ACTIVITY_KEY = "open_activity";//intent跳转传递传输key
 }

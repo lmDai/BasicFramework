@@ -40,4 +40,5 @@ dependencies {
     implementation rootProject.ext.dependencies["okhttp-logging"]
     implementation rootProject.ext.dependencies["fastjson"]
     implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["fragmentation"]
 }

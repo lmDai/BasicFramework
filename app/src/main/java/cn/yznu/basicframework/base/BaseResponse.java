@@ -10,21 +10,21 @@ import java.io.Serializable;
  * 修订历史：
  */
 public class BaseResponse<T> implements Serializable {
-    public String code;
+    public int status;
     public String message;
 
-    public T data;
+    public T param;
 
     public boolean success() {
-        return "200".equals(code);
+        return status == 200;
     }
 
     @Override
     public String toString() {
         return "BaseRespose{" +
-                "code='" + code + '\'' +
+                "code='" + status + '\'' +
                 ", msg='" + message + '\'' +
-                ", data=" + data +
+                ", data=" + param +
                 '}';
     }
 }

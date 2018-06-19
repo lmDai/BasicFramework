@@ -2,9 +2,14 @@ package cn.yznu.basicframework.base.rxbase;
 
 import org.reactivestreams.Publisher;
 
+import cn.yznu.basicframework.base.BaseResponse;
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
+import io.reactivex.FlowableEmitter;
+import io.reactivex.FlowableOnSubscribe;
 import io.reactivex.FlowableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -26,6 +31,41 @@ public class RxSchedulers {
                         .observeOn(AndroidSchedulers.mainThread());
             }
         };
+    }
+
+    public static <T> FlowableTransformer<BaseResponse<T>, T> handleResult() {
+        return new FlowableTransformer<BaseResponse<T>, T>() {
+            @Override
+            public Publisher<T> apply(Flowable<BaseResponse<T>> upstream) {
+                return upstream.flatMap(new Function<BaseResponse<T>, Publisher<T>>() {
+                    @Override
+                    public Publisher<T> apply(BaseResponse<T> tBaseResponse) throws Exception {
+                        if (tBaseResponse != null) {
+                            if (tBaseResponse.success()) {
+                                return createData(tBaseResponse.param);
+                            } else {
+                                return Flowable.error(new ApiException(tBaseResponse.status, tBaseResponse.message));
+                            }
+                        }
+                        return Flowable.error(new ServerException("服务器错误"));
+                    }
+                });
+            }
+        };
+    }
+
+    private static <T> Flowable<T> createData(final T data) {
+        return Flowable.create(new FlowableOnSubscribe<T>() {
+            @Override
+            public void subscribe(FlowableEmitter<T> subscriber) throws Exception {
+                try {
+                    subscriber.onNext(data);
+                    subscriber.onComplete();
+                } catch (Exception e) {
+                    subscriber.onError(e);
+                }
+            }
+        }, BackpressureStrategy.BUFFER);
     }
 
 }
