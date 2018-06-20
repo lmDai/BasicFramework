@@ -371,7 +371,7 @@ public class EncryptionManager {
         mStore.load(null);
     }
 
-    byte[] getIV() throws UnsupportedEncodingException {
+    byte[] getIV() {
         byte[] iv;
         if (!isCompatMode) {
             iv = new byte[12];
@@ -396,7 +396,7 @@ public class EncryptionManager {
      * @throws UnsupportedEncodingException
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    EncryptedData encryptAES(byte[] bytes, byte[] IV) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+    EncryptedData encryptAES(byte[] bytes, byte[] IV) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(AES_CIPHER);
         cipher.init(Cipher.ENCRYPT_MODE, aesKey, new GCMParameterSpec(GCM_TAG_LENGTH, IV));
         EncryptedData result = new EncryptedData();
@@ -418,7 +418,7 @@ public class EncryptionManager {
      * @throws UnsupportedEncodingException
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
-    byte[] decryptAES(EncryptedData encryptedData) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+    byte[] decryptAES(EncryptedData encryptedData) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(AES_CIPHER);
         cipher.init(Cipher.DECRYPT_MODE, aesKey, new GCMParameterSpec(GCM_TAG_LENGTH, encryptedData.IV));
         return cipher.doFinal(encryptedData.encryptedData);
@@ -437,7 +437,7 @@ public class EncryptionManager {
      * @throws UnsupportedEncodingException
      * @throws InvalidAlgorithmParameterException
      */
-    EncryptedData encryptAESCompat(byte[] bytes, byte[] IV) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, InvalidAlgorithmParameterException {
+    EncryptedData encryptAESCompat(byte[] bytes, byte[] IV) throws NoSuchPaddingException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, InvalidAlgorithmParameterException {
         Cipher c = Cipher.getInstance(AES_CIPHER_COMPAT, BOUNCY_CASTLE_PROVIDER);
         c.init(Cipher.ENCRYPT_MODE, aesKey, new IvParameterSpec(IV));
         EncryptedData result = new EncryptedData();
@@ -448,7 +448,7 @@ public class EncryptionManager {
         return result;
     }
 
-    byte[] decryptAESCompat(EncryptedData encryptedData) throws UnsupportedEncodingException, NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, InvalidMacException {
+    byte[] decryptAESCompat(EncryptedData encryptedData) throws NoSuchAlgorithmException, InvalidKeyException, NoSuchProviderException, NoSuchPaddingException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, InvalidMacException {
         if (verifyMac(encryptedData.mac, encryptedData.getDataForMacComputation())) {
             Cipher c = Cipher.getInstance(AES_CIPHER_COMPAT, BOUNCY_CASTLE_PROVIDER);
             c.init(Cipher.DECRYPT_MODE, aesKey, new IvParameterSpec(encryptedData.IV));
@@ -640,7 +640,7 @@ public class EncryptionManager {
         return false;
     }
 
-    byte[] RSAEncrypt(byte[] bytes) throws KeyStoreException, UnrecoverableEntryException, NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException {
+    byte[] RSAEncrypt(byte[] bytes) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, IOException {
         Cipher cipher = Cipher.getInstance(RSA_CIPHER, SSL_PROVIDER);
         cipher.init(Cipher.ENCRYPT_MODE, publicKey);
 

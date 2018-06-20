@@ -1,5 +1,7 @@
 package cn.yznu.basicframework.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -34,8 +36,21 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     protected final String TAG = this.getClass().getSimpleName();
     public T mPresenter;
     private boolean isPrepared;
+    public Context mContext;
 
     public BaseFragment() { /* compiled code */ }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = activity;
+    }
 
     @Override
     @Nullable
@@ -93,7 +108,6 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
         }
         mPresenter = InstanceUtil.getInstance(this, 0);
         M mModel = InstanceUtil.getInstance(this, 1);
-
         if (mPresenter != null) {
             mPresenter.mContext = this.getActivity();
         }
@@ -126,9 +140,6 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     //初始化view
     protected abstract void initView();
 
-    public <T> T findViewbyId(int id) {
-        return (T) rootView.findViewById(id);
-    }
 
     protected void initTitle() {
         title = rootView.findViewById(R.id.toolbar_title);

@@ -25,9 +25,7 @@ public class NetWorkUtils {
         boolean i = false;
         NetworkInfo localNetworkInfo = ((ConnectivityManager) paramContext
                 .getSystemService(Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
-        if ((localNetworkInfo != null) && (localNetworkInfo.isAvailable()))
-            return true;
-        return false;
+        return (localNetworkInfo != null) && (localNetworkInfo.isAvailable());
     }
 
     /**
@@ -37,9 +35,7 @@ public class NetWorkUtils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-                return true;
-            }
+            return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
         }
         return false;
     }
@@ -51,9 +47,7 @@ public class NetWorkUtils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm != null) {
             NetworkInfo networkInfo = cm.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
-                return true;
-            }
+            return networkInfo != null && networkInfo.getType() == ConnectivityManager.TYPE_MOBILE;
         }
         return false;
     }
@@ -64,9 +58,6 @@ public class NetWorkUtils {
     public static boolean isLinkAvailable(String link) {
         Pattern pattern = Pattern.compile("^(http://|https://)?((?:[A-Za-z0-9]+-[A-Za-z0-9]+|[A-Za-z0-9]+)\\.)+([A-Za-z]+)[/\\?\\:]?.*$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(link);
-        if (matcher.matches()) {
-            return true;
-        }
-        return false;
+        return matcher.matches();
     }
 }

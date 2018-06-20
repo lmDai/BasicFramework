@@ -2,7 +2,8 @@ package cn.yznu.basicframework.utils;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class PopupMenuUtil {
 
         // 如果想要popupWindow 遮挡住状态栏可以加上这句代码
         popupWindow.setClippingEnabled(false);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popupWindow.setOutsideTouchable(false);
 
         if (animatorProperty == null) {
@@ -97,16 +98,16 @@ public class PopupMenuUtil {
      * 初始化 view
      */
     private void initLayout(Context context) {
-        rlClick = (RelativeLayout) rootVew.findViewById(R.id.pop_rl_click);
-        ivBtn = (ImageView) rootVew.findViewById(R.id.pop_iv_img);
-        llTest1 = (LinearLayout) rootVew.findViewById(R.id.test1);
-        llTest2 = (LinearLayout) rootVew.findViewById(R.id.test2);
-        llTest3 = (LinearLayout) rootVew.findViewById(R.id.test3);
-        llTest4 = (LinearLayout) rootVew.findViewById(R.id.test4);
-        llTest5 = (LinearLayout) rootVew.findViewById(R.id.test5);
-        llTest6 = (LinearLayout) rootVew.findViewById(R.id.test6);
-        llTest7 = (LinearLayout) rootVew.findViewById(R.id.test7);
-        llTest8 = (LinearLayout) rootVew.findViewById(R.id.test8);
+        rlClick = rootVew.findViewById(R.id.pop_rl_click);
+        ivBtn = rootVew.findViewById(R.id.pop_iv_img);
+        llTest1 = rootVew.findViewById(R.id.test1);
+        llTest2 = rootVew.findViewById(R.id.test2);
+        llTest3 = rootVew.findViewById(R.id.test3);
+        llTest4 = rootVew.findViewById(R.id.test4);
+        llTest5 = rootVew.findViewById(R.id.test5);
+        llTest6 = rootVew.findViewById(R.id.test6);
+        llTest7 = rootVew.findViewById(R.id.test7);
+        llTest8 = rootVew.findViewById(R.id.test8);
 
         rlClick.setOnClickListener(new MViewClick(0, context));
 
@@ -145,7 +146,7 @@ public class PopupMenuUtil {
         }
     }
 
-    Toast toast = null;
+    private Toast toast = null;
 
     /**
      * 防止toast 多次被创建

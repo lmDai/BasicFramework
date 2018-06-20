@@ -44,9 +44,9 @@ public class BottomBar extends LinearLayout {
     }
 
     private void initId() {
-        mFirstBottom = (RelativeLayout) findViewById(R.id.rl_first);
-        mSecondBottom = (RelativeLayout) findViewById(R.id.rl_second);
-        mCenterBottom = (RelativeLayout) findViewById(R.id.rl_center);
+        mFirstBottom = findViewById(R.id.rl_first);
+        mSecondBottom = findViewById(R.id.rl_second);
+        mCenterBottom = findViewById(R.id.rl_center);
     }
 
     /**

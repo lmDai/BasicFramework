@@ -28,7 +28,7 @@ public class AppManager {
             synchronized (AppManager.class) {
                 if (instance == null) {
                     instance = new AppManager();
-                    instance.activityStack = new Stack<>();
+                    activityStack = new Stack<>();
                 }
             }
         }
@@ -70,6 +70,7 @@ public class AppManager {
         }
         return activityStack.get(index);
     }
+
     /**
      * 结束当前Activity（堆栈中最后一个压入的）
      */
@@ -77,6 +78,7 @@ public class AppManager {
         Activity activity = activityStack.lastElement();
         finishActivity(activity);
     }
+
     /**
      * 结束指定的Activity
      */
@@ -87,6 +89,7 @@ public class AppManager {
             activity = null;
         }
     }
+
     /**
      * 移除指定的Activity
      */
@@ -143,11 +146,12 @@ public class AppManager {
 
     /**
      * 是否已经打开指定的activity
+     *
      * @param cls
      * @return
      */
     public boolean isOpenActivity(Class<?> cls) {
-        if (activityStack!=null){
+        if (activityStack != null) {
             for (int i = 0, size = activityStack.size(); i < size; i++) {
                 if (cls == activityStack.peek().getClass()) {
                     return true;
@@ -168,9 +172,11 @@ public class AppManager {
             finishAllActivity();
             ActivityManager activityMgr = (ActivityManager) context
                     .getSystemService(Context.ACTIVITY_SERVICE);
-            activityMgr.restartPackage(context.getPackageName());
+            if (activityMgr != null) {
+                activityMgr.restartPackage(context.getPackageName());
+            }
         } catch (Exception e) {
-
+            e.printStackTrace();
         } finally {
             // 注意，如果您有后台程序运行，请不要支持此句子
             if (!isBackground) {

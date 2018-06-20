@@ -6,11 +6,6 @@ import cn.yznu.basicframework.base.BaseView;
 import cn.yznu.basicframework.model.bean.TestBean;
 import io.reactivex.Flowable;
 
-/**
- * 作者：潇湘夜雨 on 2018/2/7.
- * 邮箱：879689064@qq.com
- */
-
 public interface LoginContract {
     interface Model extends BaseModel {
         Flowable<TestBean> postLogin();
@@ -21,7 +16,7 @@ public interface LoginContract {
 
     }
 
-    abstract static class Presenter extends BasePresenter<Model, View> {
+    abstract class Presenter extends BasePresenter<Model, View> {
         public abstract void login();
     }
 }

@@ -107,7 +107,7 @@ public class IntentUtils {
     public void goActivityResultKill(Activity _this, Class<? extends Activity> _class, int requestCode) {
         intent.setClass(_this, _class);
         _this.startActivityForResult(intent, requestCode);
-        ((Activity) _this).finish();
+        _this.finish();
         _this = null;
     }
 

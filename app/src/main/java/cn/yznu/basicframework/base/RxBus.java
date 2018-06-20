@@ -46,7 +46,7 @@ class RxBus {
     public RxBus OnEvent(Observable<?> mObservable, Consumer<Object> mAction1) {
         mObservable.observeOn(AndroidSchedulers.mainThread()).subscribe(mAction1, new Consumer<Throwable>() {
             @Override
-            public void accept(Throwable throwable) throws Exception {
+            public void accept(Throwable throwable) {
                 throwable.printStackTrace();
             }
         });
@@ -93,7 +93,7 @@ class RxBus {
             return getInstance();
         List<Subject> subjects = subjectMapper.get(tag);
         if (null != subjects) {
-            subjects.remove((Subject<?>) observable);
+            subjects.remove(observable);
             if (isEmpty(subjects)) {
                 subjectMapper.remove(tag);
             }

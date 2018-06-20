@@ -9,11 +9,6 @@ import cn.yznu.basicframework.ui.contract.LoginContract;
 import io.reactivex.Flowable;
 
 
-/**
- * Created by linSir
- * date at 2018/2/7.
- * describe:
- */
 @InstanceFactory()
 public class LoginModel implements LoginContract.Model {
     @Override

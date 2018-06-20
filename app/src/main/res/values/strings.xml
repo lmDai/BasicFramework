@@ -3,4 +3,8 @@
     <string name="no_net">无网络连接</string>
     <string name="net_error">网络错误</string>
     <string name="loading">加载中...</string>
+    <string name="text_mine">我的</string>
+    <string name="text_index">首页</string>
+    <string name="text_bookshelf">书架</string>
+    <string name="img_description">图片描述</string>
 </resources>

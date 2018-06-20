@@ -79,7 +79,7 @@ public class NetStateReceiver extends BroadcastReceiver {
             try {
                 mContext.getApplicationContext().unregisterReceiver(mBroadcastReceiver);
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
         }
 

@@ -39,7 +39,7 @@ public class RxSchedulers {
             public Publisher<T> apply(Flowable<BaseResponse<T>> upstream) {
                 return upstream.flatMap(new Function<BaseResponse<T>, Publisher<T>>() {
                     @Override
-                    public Publisher<T> apply(BaseResponse<T> tBaseResponse) throws Exception {
+                    public Publisher<T> apply(BaseResponse<T> tBaseResponse) {
                         if (tBaseResponse != null) {
                             if (tBaseResponse.success()) {
                                 return createData(tBaseResponse.param);
@@ -57,7 +57,7 @@ public class RxSchedulers {
     private static <T> Flowable<T> createData(final T data) {
         return Flowable.create(new FlowableOnSubscribe<T>() {
             @Override
-            public void subscribe(FlowableEmitter<T> subscriber) throws Exception {
+            public void subscribe(FlowableEmitter<T> subscriber) {
                 try {
                     subscriber.onNext(data);
                     subscriber.onComplete();

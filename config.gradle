@@ -67,7 +67,6 @@ ext {
             "MZBannerView"        : "com.github.pinguo-zhouwei:MZBannerView:${dependVersion.MZBannerView}",
             "glide"               : "com.github.bumptech.glide:glide:${dependVersion.glide}",
             "AdapterHelper"       : "com.github.CymChad:BaseRecyclerViewAdapterHelper:${dependVersion.AdapterHelper}",
-
             "auto-service"        : "com.google.auto.service:auto-service:${dependVersion.autoservice}",
     ]
 }
