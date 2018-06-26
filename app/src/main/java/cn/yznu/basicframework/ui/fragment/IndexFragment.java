@@ -1,13 +1,15 @@
 package cn.yznu.basicframework.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
+import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,11 +17,6 @@ import java.util.List;
 import butterknife.BindView;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseFragment;
-import cn.yznu.basicframework.model.bean.TestBean;
-import cn.yznu.basicframework.ui.adapter.IndexAdapter;
-import cn.yznu.basicframework.utils.AdapterUtils;
-import cn.yznu.basicframework.utils.PageResultUtils;
-import cn.yznu.basicframework.utils.RecyclerViewUtils;
 
 /**
  * 作者：uiho_mac
@@ -28,13 +25,11 @@ import cn.yznu.basicframework.utils.RecyclerViewUtils;
  * 版本：1.0
  * 修订历史：
  */
-public class IndexFragment extends BaseFragment implements OnRefreshListener, BaseQuickAdapter.RequestLoadMoreListener {
-    @BindView(R.id.recycler_view)
-    RecyclerView recyclerView;
+public class IndexFragment extends BaseFragment {
     @BindView(R.id.smart_refresh)
     SmartRefreshLayout smartRefresh;
-    private IndexAdapter indexAdapter;
-    private List<TestBean> testBeans = new ArrayList<>();
+    @BindView(R.id.banner)
+    MZBannerView mzBannerView;
 
     public static IndexFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -55,35 +50,47 @@ public class IndexFragment extends BaseFragment implements OnRefreshListener, Ba
 
     @Override
     protected void initView() {
-        initData();
-        indexAdapter = new IndexAdapter(testBeans);
-        RecyclerViewUtils.getInstance().buildDefault(mContext, recyclerView);
-        AdapterUtils.getInstance().buildDefault(indexAdapter, recyclerView);
-        smartRefresh.setOnRefreshListener(this);
-        indexAdapter.setOnLoadMoreListener(this, recyclerView);
-    }
-
-    private void initData() {
+        setTitle(false, getResources().getString(R.string.str_index));
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            testBeans.add(new TestBean());
+            list.add(R.drawable.welcome_bg);
+        }
+        mzBannerView.setPages(list, new MZHolderCreator<BannerViewHolder>() {
+            @Override
+            public BannerViewHolder createViewHolder() {
+                return new BannerViewHolder();
+            }
+        });
+    }
+
+
+    public static class BannerViewHolder implements MZViewHolder<Integer> {
+        private ImageView mImageView;
+
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
+            mImageView = view.findViewById(R.id.banner_image);
+            return view;
+        }
+
+        @Override
+        public void onBind(Context context, int position, Integer data) {
+            // 数据绑定
+            mImageView.setImageResource(data);
         }
     }
 
-    private int page = 0;
-
     @Override
-    public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-        indexAdapter.setEnableLoadMore(false);
-        page = PageResultUtils.getInstance().handleResult(testBeans, indexAdapter, smartRefresh, true, page);
+    public void onResume() {
+        super.onResume();
+        mzBannerView.start();
     }
 
-
     @Override
-    public void onLoadMoreRequested() {
-        if (page>1){
-            page = PageResultUtils.getInstance().handleResult(null, indexAdapter, smartRefresh, false, page);
-        }else {
-            page = PageResultUtils.getInstance().handleResult(testBeans, indexAdapter, smartRefresh, false, page);
-        }
+    public void onPause() {
+        super.onPause();
+        mzBannerView.pause();//暂停轮播
     }
 }

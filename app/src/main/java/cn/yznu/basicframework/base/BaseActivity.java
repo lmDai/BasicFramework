@@ -152,6 +152,11 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
         StatusBarCompat.translucentStatusBar(this);
     }
 
+    protected void setTitle(boolean showBack, String str) {
+        back.setVisibility(showBack ? View.VISIBLE : View.GONE);
+        title.setText(str);
+    }
+
     //获取布局文件
     public abstract int getLayoutId();
 

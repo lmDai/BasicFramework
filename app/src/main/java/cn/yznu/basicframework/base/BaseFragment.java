@@ -146,8 +146,20 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     protected void initTitle() {
         title = rootView.findViewById(R.id.toolbar_title);
         back = rootView.findViewById(R.id.toolbar_back);
+        if (null != back) {
+            back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (getActivity() != null)
+                        getActivity().finish();
+                }
+            });
+        }
     }
-
+    protected void setTitle(boolean showBack, String str) {
+        back.setVisibility(showBack ? View.VISIBLE : View.GONE);
+        title.setText(str);
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

@@ -27,6 +27,7 @@ dependencies {
     implementation project(':anno')
     implementation rootProject.ext.dependencies["constraint"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["multidex"]
     implementation rootProject.ext.dependencies["butterknife"]
@@ -43,4 +44,5 @@ dependencies {
     implementation rootProject.ext.dependencies["fragmentation"]
     implementation rootProject.ext.dependencies["AdapterHelper"]
     implementation rootProject.ext.dependencies["smartrefreshlayout"]
+    implementation rootProject.ext.dependencies["MZBannerView"]
 }

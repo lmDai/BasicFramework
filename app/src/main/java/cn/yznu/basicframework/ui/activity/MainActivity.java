@@ -2,11 +2,8 @@ package cn.yznu.basicframework.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -24,8 +21,6 @@ public class MainActivity extends BaseActivity {
     BottomBar bottomBar;
     @BindView(R.id.fl_tab_container)
     FrameLayout rlTabContainer;
-    ImageView mCenterImage;
-    private TextView txtIndex, txtMy;
     private Long firstTime = 0L;
     private static final int INDEX = 0;
     private static final int SECOND = 1;
@@ -61,32 +56,31 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        mCenterImage = findViewById(R.id.img_center);
-        txtIndex = findViewById(R.id.txt_index);
-        txtMy = findViewById(R.id.txt_my);
         bottomBar.setOnBottombarOnclick(new BottomBar.OnBottomBarClick() {
             @Override
-            public void onFirstClick() {
+            public void onIndexClick() {
                 mSelectPosition = 0;
                 showHideFragment(mFragments[mSelectPosition], mFragments[mCurrentPosition]);
                 mCurrentPosition = 0;
-                changeNavColor();
             }
 
             @Override
-            public void onSecondClick() {
+            public void onMessageClick() {
                 mSelectPosition = 1;
                 showHideFragment(mFragments[mSelectPosition], mFragments[mCurrentPosition]);
                 mCurrentPosition = 1;
-                changeNavColor();
             }
 
             @Override
-            public void onCenterClick() {
-                PopupMenuUtil.getInstance()._show(mContext, mCenterImage);
+            public void onContactClick() {
+
+            }
+
+            @Override
+            public void onMineClick() {
+
             }
         });
-        changeNavColor();
     }
 
     @Override
@@ -106,19 +100,5 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
-    }
-
-    public void changeNavColor() {
-        switch (mSelectPosition) {
-            case 0:
-                txtMy.setTextColor(ContextCompat.getColor(mContext, R.color.colorIndexbgTextDark));
-                txtIndex.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
-                break;
-            case 1:
-                txtMy.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
-                txtIndex.setTextColor(ContextCompat.getColor(mContext, R.color.colorIndexbgTextDark));
-                break;
-        }
-
     }
 }

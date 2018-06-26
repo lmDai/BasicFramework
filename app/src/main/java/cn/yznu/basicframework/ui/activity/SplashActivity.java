@@ -41,6 +41,7 @@ public class SplashActivity extends BaseActivity {
         txtAppVersion.setText(SystemUtils.getAppVersion(mContext));
         handler = new Handler();
         splashHandler = new SplashHandler();
+        SetTranslanteBar();
 
     }
 
