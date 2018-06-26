@@ -124,7 +124,9 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
 
 
     private void SetStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorAccent));
+        if (getActivity() != null) {
+            StatusBarCompat.setStatusBarColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+        }
     }
 
     /**

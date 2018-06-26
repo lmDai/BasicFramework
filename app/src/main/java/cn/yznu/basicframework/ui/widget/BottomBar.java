@@ -37,7 +37,7 @@ public class BottomBar extends LinearLayout {
      * @param context
      */
     private void init(Context context) {
-        mContext = context;
+        this.mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.layout_bottom, this, true);
         initId();//获取控件id
         onBottomBarClick();
