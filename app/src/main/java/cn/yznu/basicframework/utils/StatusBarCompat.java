@@ -27,12 +27,14 @@ public class StatusBarCompat {
 
     /**
      * set statusBarColor
+     *
      * @param statusColor color
-     * @param alpha 0 - 255
+     * @param alpha       0 - 255
      */
     public static void setStatusBarColor(Activity activity, int statusColor, int alpha) {
         setStatusBarColor(activity, calculateStatusBarColor(statusColor, alpha));
     }
+
     public static void setStatusBarColor(Activity activity, int statusColor) {
         Window window = activity.getWindow();
         ViewGroup mContentView = activity.findViewById(Window.ID_ANDROID_CONTENT);
@@ -53,7 +55,7 @@ public class StatusBarCompat {
                 }
             } else {
                 ViewGroup mDecorView = (ViewGroup) window.getDecorView();
-                if (mDecorView.getTag() != null && mDecorView.getTag() instanceof Boolean && (Boolean)mDecorView.getTag()) {
+                if (mDecorView.getTag() != null && mDecorView.getTag() instanceof Boolean && (Boolean) mDecorView.getTag()) {
                     //if has add fake status bar view
                     View mStatusBarView = mDecorView.getChildAt(0);
                     if (mStatusBarView != null) {
@@ -88,6 +90,7 @@ public class StatusBarCompat {
 
     /**
      * change to full screen mode
+     *
      * @param hideStatusBarBackground hide status bar alpha Background when SDK > 21, true if hide it
      */
     public static void translucentStatusBar(Activity activity, boolean hideStatusBarBackground) {
@@ -120,7 +123,7 @@ public class StatusBarCompat {
                 }
             } else {
                 ViewGroup mDecorView = (ViewGroup) window.getDecorView();
-                if (mDecorView.getTag() != null && mDecorView.getTag() instanceof Boolean && (Boolean)mDecorView.getTag()) {
+                if (mDecorView.getTag() != null && mDecorView.getTag() instanceof Boolean && (Boolean) mDecorView.getTag()) {
                     mChildView = mDecorView.getChildAt(0);
                     //remove fake status bar view.
                     mContentView.removeView(mChildView);
