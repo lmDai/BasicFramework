@@ -2,9 +2,13 @@ package cn.yznu.basicframework.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +41,8 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     public T mPresenter;
     private boolean isPrepared;
     public Context mContext;
+    protected boolean showBack = true;//是否显示返回按钮，默认true
+    private TextView textCancel;
 
     public BaseFragment() { /* compiled code */ }
 
@@ -78,6 +84,11 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
         initPrepare();
     }
 
+    public void setTopTitle(String str) {
+        TextView title = (TextView) rootView.findViewById(R.id.bt_tv_title);
+        title.setText(str);
+    }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
@@ -111,21 +122,46 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
         if (mPresenter != null) {
             mPresenter.mContext = this.getActivity();
         }
+        initView();
+        SetStatusBarColor();
         mToolbar = rootView.findViewById(R.id.toolbar);
-        initTitle();
-
+        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        if (mToolbar != null) {
+            mToolbar.setTitle("");
+            textCancel = (TextView) mToolbar.findViewById(R.id.btn_left);
+            if (textCancel != null) {
+                textCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onBackListener();
+                    }
+                });
+            }
+            ((AppCompatActivity) mContext).setSupportActionBar(mToolbar);
+            if (showBack) {
+                final Drawable upArrow = ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher);
+                upArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+                ActionBar actionBar = ((AppCompatActivity) mContext).getSupportActionBar();
+                if (actionBar != null) {
+                    actionBar.setHomeAsUpIndicator(upArrow);
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                }
+            }
+        }
         if (mPresenter != null && this instanceof BaseView) {
             mPresenter.mContext = this.getActivity();
             mPresenter.setVM(this, mModel);
         }
-        initView();
-        SetStatusBarColor();
+
     }
 
+    protected void onBackListener() {
+        ((AppCompatActivity) mContext).finish();
+    }
 
     private void SetStatusBarColor() {
         if (getActivity() != null) {
-            StatusBarCompat.setStatusBarColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            StatusBarCompat.setStatusBarColor(getActivity(), ContextCompat.getColor(getActivity(), R.color.colorAccent));
         }
     }
 
@@ -142,24 +178,6 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     //初始化view
     protected abstract void initView();
 
-
-    protected void initTitle() {
-        title = rootView.findViewById(R.id.toolbar_title);
-        back = rootView.findViewById(R.id.toolbar_back);
-        if (null != back) {
-            back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (getActivity() != null)
-                        getActivity().finish();
-                }
-            });
-        }
-    }
-    protected void setTitle(boolean showBack, String str) {
-        back.setVisibility(showBack ? View.VISIBLE : View.GONE);
-        title.setText(str);
-    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();

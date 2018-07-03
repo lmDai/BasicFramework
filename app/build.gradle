@@ -18,13 +18,14 @@ android {
     }
 }
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testImplementation 'junit:junit:4.12'
     annotationProcessor project(':apt')
     implementation project(':anno')
+    implementation project(':common')
     implementation rootProject.ext.dependencies["constraint"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
     implementation rootProject.ext.dependencies["design"]
@@ -45,4 +46,5 @@ dependencies {
     implementation rootProject.ext.dependencies["AdapterHelper"]
     implementation rootProject.ext.dependencies["smartrefreshlayout"]
     implementation rootProject.ext.dependencies["MZBannerView"]
+    implementation rootProject.ext.dependencies["bottom_navigation_bar"]
 }

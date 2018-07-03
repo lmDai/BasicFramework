@@ -50,7 +50,8 @@ public class IndexFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        setTitle(false, getResources().getString(R.string.str_index));
+        showBack = false;
+        setTopTitle(getResources().getString(R.string.str_index));
         List<Integer> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             list.add(R.drawable.welcome_bg);

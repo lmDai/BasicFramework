@@ -2,7 +2,7 @@
     <string name="app_name">BasicFramework</string>
     <string name="no_net">无网络连接</string>
     <string name="net_error">网络错误</string>
-    <string name="loading">加载中...</string>
+    <string name="loading">加载中…</string>
     <string name="str_mine">我的</string>
     <string name="str_index">首页</string>
     <string name="str_contact">通讯录</string>

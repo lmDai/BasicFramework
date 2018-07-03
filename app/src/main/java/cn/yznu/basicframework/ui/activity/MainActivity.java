@@ -1,31 +1,35 @@
 package cn.yznu.basicframework.ui.activity;
 
 import android.os.Bundle;
+import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.view.KeyEvent;
 import android.widget.FrameLayout;
-import android.widget.Toast;
+
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 
 import butterknife.BindView;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseActivity;
 import cn.yznu.basicframework.ui.fragment.IndexFragment;
 import cn.yznu.basicframework.ui.fragment.SecondFragment;
-import cn.yznu.basicframework.ui.widget.BottomBar;
 import cn.yznu.basicframework.utils.PopupMenuUtil;
+import cn.yznu.common.toasthelper.TastyToast;
+import cn.yznu.common.toasthelper.ToastHelper;
 import me.yokeyword.fragmentation.SupportFragment;
 
 
 public class MainActivity extends BaseActivity {
-    @BindView(R.id.bottomBar)
-    BottomBar bottomBar;
-    @BindView(R.id.fl_tab_container)
+    @BindView(R.id.bottom_navigation_bar)
+    BottomNavigationBar bottomNavigationBar;
+    @BindView(R.id.content)
     FrameLayout rlTabContainer;
     private Long firstTime = 0L;
     private static final int INDEX = 0;
     private static final int SECOND = 1;
     private SupportFragment[] mFragments = new SupportFragment[2];
-    private int mSelectPosition, mCurrentPosition = 0;
+    private int mSelectPosition = 0, mCurrentPosition = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +37,7 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragments[INDEX] = IndexFragment.newInstance();
             mFragments[SECOND] = SecondFragment.newInstance();
-            loadMultipleRootFragment(R.id.fl_tab_container, INDEX,
+            loadMultipleRootFragment(R.id.content, INDEX,
                     mFragments[INDEX],
                     mFragments[SECOND]);
         } else {
@@ -56,31 +60,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        bottomBar.setOnBottombarOnclick(new BottomBar.OnBottomBarClick() {
-            @Override
-            public void onIndexClick() {
-                mSelectPosition = 0;
-                showHideFragment(mFragments[mSelectPosition], mFragments[mCurrentPosition]);
-                mCurrentPosition = 0;
-            }
-
-            @Override
-            public void onMessageClick() {
-                mSelectPosition = 1;
-                showHideFragment(mFragments[mSelectPosition], mFragments[mCurrentPosition]);
-                mCurrentPosition = 1;
-            }
-
-            @Override
-            public void onContactClick() {
-
-            }
-
-            @Override
-            public void onMineClick() {
-
-            }
-        });
+        initBottomNavigationBar(mSelectPosition);
     }
 
     @Override
@@ -90,7 +70,7 @@ public class MainActivity extends BaseActivity {
                 PopupMenuUtil.getInstance()._rlClickAction();
             } else {
                 if (System.currentTimeMillis() - firstTime > 2000) {
-                    Toast.makeText(mContext, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                    ToastHelper.showToast(mContext, "再次点击退出程序", TastyToast.INFO);
                     firstTime = System.currentTimeMillis();
                 } else {
                     finish();
@@ -100,5 +80,32 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void initBottomNavigationBar(@IntRange(from = 0, to = 3) int position) {
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.str_index)).setInactiveIconResource(R.mipmap.ic_launcher_round));
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.str_message)).setInactiveIconResource(R.mipmap.ic_launcher_round));
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.str_contact)).setInactiveIconResource(R.mipmap.ic_launcher_round));
+        bottomNavigationBar.addItem(new BottomNavigationItem(R.mipmap.ic_launcher, getString(R.string.str_mine)).setInactiveIconResource(R.mipmap.ic_launcher_round));
+
+        bottomNavigationBar.setMode(BottomNavigationBar.MODE_FIXED);
+        bottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
+        bottomNavigationBar.setActiveColor(R.color.colorAccent);
+        bottomNavigationBar.setInActiveColor(R.color.colorBgDark);
+        bottomNavigationBar.setFirstSelectedPosition(position);
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.SimpleOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position) {
+                doOnTabSelected(position);
+            }
+        });
+        bottomNavigationBar.setBarBackgroundColor(R.color.colorWhite);
+        bottomNavigationBar.initialise();
+    }
+
+    private void doOnTabSelected(int position) {
+        mSelectPosition = position;
+        showHideFragment(mFragments[position], mFragments[mCurrentPosition]);
+        mCurrentPosition = position;
     }
 }

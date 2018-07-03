@@ -20,8 +20,10 @@ import cn.yznu.apt.InstanceFactory;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.receiver.netstatereceiver.NetStateReceiver;
 import cn.yznu.basicframework.service.InitializeService;
+import cn.yznu.basicframework.utils.DensityUtils;
 import cn.yznu.basicframework.utils.instance.IFactory;
 import cn.yznu.basicframework.utils.instance.InstanceUtil;
+import cn.yznu.common.loadviewhelper.LoadViewHelper;
 
 import static java.lang.System.exit;
 
@@ -41,7 +43,7 @@ public class App extends Application {
             @NonNull
             @Override
             public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
-                layout.setPrimaryColorsId(R.color.colorPrimary,  R.color.colorWhite);//全局设置主题颜色
+                layout.setPrimaryColorsId(R.color.colorPrimary, R.color.colorWhite);//全局设置主题颜色
                 return new ClassicsHeader(context);
             }
         });
@@ -61,6 +63,8 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        DensityUtils.setDensity(this);
+        initLoadingHelper();
     }
 
     public static Context getAppContext() {
@@ -98,5 +102,15 @@ public class App extends Application {
         NetStateReceiver.unRegisterNetworkStateReceiver(this);
         android.os.Process.killProcess(android.os.Process.myPid());
         exit(0);
+    }
+
+    /**
+     * 初始化加载界面，空界面，错误界面
+     */
+    private void initLoadingHelper() {
+        LoadViewHelper.getBuilder()
+                .setLoadEmpty(R.layout.empty_view)
+                .setLoadError(R.layout.error_view)
+                .setLoadIng(R.layout.loading_view);
     }
 }
