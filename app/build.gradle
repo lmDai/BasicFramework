@@ -1,5 +1,14 @@
 apply plugin: 'com.android.application'
 android {
+    signingConfigs {
+        myConfig {
+            storeFile file("uihocqlt.jks")
+            storePassword "uiho1234"
+            keyAlias "key0"
+            keyPassword "uiho1234"
+            v2SigningEnabled false
+        }
+    }
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     defaultConfig {
@@ -13,7 +22,10 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.myConfig
         }
     }
 }
@@ -44,7 +56,5 @@ dependencies {
     implementation rootProject.ext.dependencies["glide"]
     implementation rootProject.ext.dependencies["fragmentation"]
     implementation rootProject.ext.dependencies["AdapterHelper"]
-    implementation rootProject.ext.dependencies["smartrefreshlayout"]
-    implementation rootProject.ext.dependencies["MZBannerView"]
     implementation rootProject.ext.dependencies["bottom_navigation_bar"]
 }

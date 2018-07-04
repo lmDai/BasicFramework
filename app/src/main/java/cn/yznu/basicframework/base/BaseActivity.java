@@ -64,11 +64,11 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
             mPresenter.setVM(this, mModel);
         }
         initNetWorkState();//初始化网络状态
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             toolbar.setTitle("");
-            textRight = (TextView) toolbar.findViewById(R.id.btn_right);
-            textCancel = (TextView) toolbar.findViewById(R.id.btn_left);
+            textRight = toolbar.findViewById(R.id.btn_right);
+            textCancel = toolbar.findViewById(R.id.btn_left);
             if (textCancel != null)
                 textCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -114,7 +114,7 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
      * @param str
      */
     public void setTopTitle(String str) {
-        TextView title = (TextView) findViewById(R.id.bt_tv_title);
+        TextView title = findViewById(R.id.bt_tv_title);
         title.setText(str);
     }
 

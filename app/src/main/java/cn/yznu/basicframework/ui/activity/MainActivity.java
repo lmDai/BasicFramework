@@ -14,7 +14,6 @@ import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseActivity;
 import cn.yznu.basicframework.ui.fragment.IndexFragment;
 import cn.yznu.basicframework.ui.fragment.SecondFragment;
-import cn.yznu.basicframework.utils.PopupMenuUtil;
 import cn.yznu.common.toasthelper.TastyToast;
 import cn.yznu.common.toasthelper.ToastHelper;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -66,16 +65,12 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if (PopupMenuUtil.getInstance()._isShowing()) {
-                PopupMenuUtil.getInstance()._rlClickAction();
+            if (System.currentTimeMillis() - firstTime > 2000) {
+                ToastHelper.showToast(mContext, "再次点击退出程序", TastyToast.INFO);
+                firstTime = System.currentTimeMillis();
             } else {
-                if (System.currentTimeMillis() - firstTime > 2000) {
-                    ToastHelper.showToast(mContext, "再次点击退出程序", TastyToast.INFO);
-                    firstTime = System.currentTimeMillis();
-                } else {
-                    finish();
-                    System.exit(0);
-                }
+                finish();
+                System.exit(0);
             }
             return true;
         }
@@ -101,6 +96,7 @@ public class MainActivity extends BaseActivity {
         });
         bottomNavigationBar.setBarBackgroundColor(R.color.colorWhite);
         bottomNavigationBar.initialise();
+        bottomNavigationBar.setAutoHideEnabled(false);
     }
 
     private void doOnTabSelected(int position) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -60,7 +61,7 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
 
     @Override
     @Nullable
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         if (null != getArguments()) {
             getBundleExtras(getArguments());
@@ -85,7 +86,7 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     }
 
     public void setTopTitle(String str) {
-        TextView title = (TextView) rootView.findViewById(R.id.bt_tv_title);
+        TextView title = rootView.findViewById(R.id.bt_tv_title);
         title.setText(str);
     }
 
@@ -125,10 +126,10 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
         initView();
         SetStatusBarColor();
         mToolbar = rootView.findViewById(R.id.toolbar);
-        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+        mToolbar = rootView.findViewById(R.id.toolbar);
         if (mToolbar != null) {
             mToolbar.setTitle("");
-            textCancel = (TextView) mToolbar.findViewById(R.id.btn_left);
+            textCancel = mToolbar.findViewById(R.id.btn_left);
             if (textCancel != null) {
                 textCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -140,7 +141,9 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
             ((AppCompatActivity) mContext).setSupportActionBar(mToolbar);
             if (showBack) {
                 final Drawable upArrow = ContextCompat.getDrawable(mContext, R.mipmap.ic_launcher);
-                upArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+                if (upArrow != null) {
+                    upArrow.setColorFilter(ContextCompat.getColor(mContext, R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+                }
                 ActionBar actionBar = ((AppCompatActivity) mContext).getSupportActionBar();
                 if (actionBar != null) {
                     actionBar.setHomeAsUpIndicator(upArrow);

@@ -89,8 +89,6 @@ class RxBus {
     @SuppressWarnings("rawtypes")
     public RxBus unregister(@NonNull Object tag,
                             @NonNull Observable<?> observable) {
-        if (null == observable)
-            return getInstance();
         List<Subject> subjects = subjectMapper.get(tag);
         if (null != subjects) {
             subjects.remove(observable);
