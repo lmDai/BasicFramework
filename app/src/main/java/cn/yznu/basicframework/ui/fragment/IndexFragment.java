@@ -1,16 +1,23 @@
 package cn.yznu.basicframework.ui.fragment;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
+import com.zhouwei.mzbanner.MZBannerView;
+import com.zhouwei.mzbanner.holder.MZHolderCreator;
+import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +25,18 @@ import java.util.List;
 import butterknife.BindView;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseFragment;
+import cn.yznu.basicframework.model.bean.ModelHomeEntrance;
 import cn.yznu.basicframework.model.bean.TestBean;
+import cn.yznu.basicframework.ui.activity.DetailsActivity;
+import cn.yznu.basicframework.ui.adapter.CagegoryViewPagerAdapter;
+import cn.yznu.basicframework.ui.adapter.EntranceAdapter;
 import cn.yznu.basicframework.ui.adapter.IndexAdapter;
+import cn.yznu.basicframework.ui.contract.HomeContract;
+import cn.yznu.basicframework.ui.model.HomeModel;
+import cn.yznu.basicframework.ui.presenter.HomePresenter;
+import cn.yznu.basicframework.utils.Glide.ShowImageUtils;
+import cn.yznu.basicframework.utils.IntentUtils;
+import cn.yznu.common.indicator.CircleIndicatorView;
 import cn.yznu.common.toasthelper.TastyToast;
 import cn.yznu.common.toasthelper.ToastHelper;
 
@@ -30,15 +47,19 @@ import cn.yznu.common.toasthelper.ToastHelper;
  * 版本：1.0
  * 修订历史：
  */
-public class IndexFragment extends BaseFragment {
+public class IndexFragment extends BaseFragment<HomePresenter, HomeModel> implements HomeContract.View {
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout swipeLayout;
+    MZBannerView mzBannerView;
+    public static final int HOME_ENTRANCE_PAGE_SIZE = 10;//首页菜单单页显示数量
+    ViewPager entranceViewPager;
+    CircleIndicatorView entranceIndicatorView;
+    LinearLayout homeEntranceLayout;
+    private List<ModelHomeEntrance> homeEntrances;
     private IndexAdapter indexAdapter;
-    private int mNextRequestPage = 1;
-    private static final int PAGE_SIZE = 6;
 
     public static IndexFragment newInstance() {
         Bundle bundle = new Bundle();
@@ -64,8 +85,10 @@ public class IndexFragment extends BaseFragment {
         swipeLayout.setColorSchemeColors(Color.rgb(47, 223, 189));
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         initAdapter();
+        addHeadView();
         initRefreshLayout();
         refresh();
+
     }
 
     private void initAdapter() {
@@ -77,16 +100,71 @@ public class IndexFragment extends BaseFragment {
             }
         }, recyclerView);
         indexAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-//        indexAdapter.setPreLoadNumber(3);
         recyclerView.setAdapter(indexAdapter);
-
-        recyclerView.addOnItemTouchListener(new OnItemClickListener() {
+        indexAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
-            public void onSimpleItemClick(final BaseQuickAdapter adapter, final View view, final int position) {
-                ToastHelper.showToast(mContext, position + "", TastyToast.INFO);
-
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                IntentUtils.get().goActivity(mContext, DetailsActivity.class);
             }
         });
+    }
+
+    private void addHeadView() {
+        View headView = getLayoutInflater().inflate(R.layout.layout_index_top, (ViewGroup) recyclerView.getParent(), false);
+        mzBannerView = headView.findViewById(R.id.banner);
+        homeEntranceLayout = headView.findViewById(R.id.home_entrance);
+        entranceViewPager = headView.findViewById(R.id.main_home_entrance_vp);
+        entranceIndicatorView = headView.findViewById(R.id.main_home_entrance_indicator);
+        List<TestBean> testBeans = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            TestBean testBean = new TestBean();
+            testBean.setUrl("http://ww1.sinaimg.cn/large/0065oQSqly1frv032vod8j30k80q6gsz.jpg");
+            testBeans.add(testBean);
+        }
+        setBanner(testBeans);
+        initIndicatorData();
+        init();
+        indexAdapter.addHeaderView(headView);
+    }
+
+    //初始化首页indicator数据
+    private void initIndicatorData() {
+        homeEntrances = new ArrayList<>();
+        homeEntrances.add(new ModelHomeEntrance("美食", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("电影", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("酒店住宿", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("生活服务", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("KTV", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("旅游", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("学习培训", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("汽车服务", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("摄影写真", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("休闲娱乐", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("丽人", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("运动健身", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("大保健", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("团购", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("景点", R.drawable.pic_zjz));
+        homeEntrances.add(new ModelHomeEntrance("全部分类", R.drawable.pic_zjz));
+    }
+
+    private void init() {
+        int pageSize = HOME_ENTRANCE_PAGE_SIZE;
+        //一共的页数等于 总数/每页数量，并取整。
+        int pageCount = (int) Math.ceil(homeEntrances.size() * 1.0 / pageSize);
+        List<View> viewList = new ArrayList<View>();
+        for (int index = 0; index < pageCount; index++) {
+            //每个页面都是inflate出一个新实例
+            RecyclerView recyclerView1 = new RecyclerView(mContext);
+            recyclerView1.setLayoutManager(new GridLayoutManager(mContext, 5));
+            int last = (index + 1) * 10 > homeEntrances.size() ? homeEntrances.size() : (index + 1) * 10;
+            EntranceAdapter entranceAdapter = new EntranceAdapter(homeEntrances.subList(index * 10, last));
+            recyclerView1.setAdapter(entranceAdapter);
+            viewList.add(recyclerView1);
+        }
+        CagegoryViewPagerAdapter adapter = new CagegoryViewPagerAdapter(viewList);
+        entranceViewPager.setAdapter(adapter);
+        entranceIndicatorView.setUpWithViewPager(entranceViewPager);
     }
 
     private void initRefreshLayout() {
@@ -99,122 +177,83 @@ public class IndexFragment extends BaseFragment {
     }
 
     private void refresh() {
-        mNextRequestPage = 1;
         indexAdapter.setEnableLoadMore(false);//这里的作用是防止下拉刷新的时候还可以上拉加载
-        new Request(mNextRequestPage, new RequestCallBack() {
-            @Override
-            public void success(List<TestBean> data) {
-                setData(true, data);
-                indexAdapter.setEnableLoadMore(true);
-                swipeLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void fail(Exception e) {
-                ToastHelper.showToast(mContext, getString(R.string.net_error) + "", TastyToast.ERROR);
-                indexAdapter.setEnableLoadMore(true);
-                swipeLayout.setRefreshing(false);
-            }
-        }).start();
+        mPresenter.getGanks("福利", true);
     }
 
     private void loadMore() {
-        new Request(mNextRequestPage, new RequestCallBack() {
-            @Override
-            public void success(List<TestBean> data) {
-                setData(false, data);
-            }
-
-            @Override
-            public void fail(Exception e) {
-                indexAdapter.loadMoreFail();
-                ToastHelper.showToast(mContext, getString(R.string.net_error) + "", TastyToast.ERROR);
-            }
-        }).start();
+        mPresenter.getGanks("福利", false);
     }
 
-    private void setData(boolean isRefresh, List data) {
-        mNextRequestPage++;
+    @Override
+    public void setData(boolean isRefresh, final List data) {
         final int size = data == null ? 0 : data.size();
         if (isRefresh) {
+            swipeLayout.setRefreshing(false);
             indexAdapter.setNewData(data);
         } else {
             if (size > 0) {
                 indexAdapter.addData(data);
             }
         }
-        if (size < PAGE_SIZE) {
+        if (size < 10) {
             //第一页如果不够一页就不显示没有更多数据布局
             indexAdapter.loadMoreEnd(false);
-            ToastHelper.showToast(mContext, "no more data", TastyToast.ERROR);
-
-        } else {
-            indexAdapter.loadMoreComplete();
         }
+        indexAdapter.loadMoreComplete();
+
     }
-}
 
-interface RequestCallBack {
-    void success(List<TestBean> data);
+    public void setBanner(List<TestBean> userBaseRespose) {
 
-    void fail(Exception e);
-}
-
-class Request extends Thread {
-    private static final int PAGE_SIZE = 6;
-    private int mPage;
-    private RequestCallBack mCallBack;
-    private Handler mHandler;
-
-    private static boolean mFirstPageNoMore;
-    private static boolean mFirstError = true;
-
-    public Request(int page, RequestCallBack callBack) {
-        mPage = page;
-        mCallBack = callBack;
-        mHandler = new Handler(Looper.getMainLooper());
+        // 设置数据
+        mzBannerView.setBannerPageClickListener(new MZBannerView.BannerPageClickListener() {
+            @Override
+            public void onPageClick(View view, int i) {
+                ToastHelper.showToast(mContext, i + "", TastyToast.INFO);
+            }
+        });
+        mzBannerView.setPages(userBaseRespose, new MZHolderCreator<BannerViewHolder>() {
+            @Override
+            public BannerViewHolder createViewHolder() {
+                return new BannerViewHolder();
+            }
+        });
+        mzBannerView.start();
     }
 
     @Override
-    public void run() {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
+    public void showErrorTip(String msg) {
+
+    }
+
+    public static class BannerViewHolder implements MZViewHolder<TestBean> {
+        private ImageView mImageView;
+
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
+            mImageView = view.findViewById(R.id.banner_image);
+            return view;
         }
 
-        if (mPage == 2 && mFirstError) {
-            mFirstError = false;
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    mCallBack.fail(new RuntimeException("fail"));
-                }
-            });
-        } else {
-            int size = PAGE_SIZE;
-            if (mPage == 1) {
-                if (mFirstPageNoMore) {
-                    size = 1;
-                }
-                mFirstPageNoMore = !mFirstPageNoMore;
-                if (!mFirstError) {
-                    mFirstError = true;
-                }
-            } else if (mPage == 4) {
-                size = 1;
-            }
-
-            final int dataSize = size;
-            mHandler.post(new Runnable() {
-                @Override
-                public void run() {
-                    List<TestBean> testBeans = new ArrayList<>();
-                    for (int i = 0; i < 3; i++) {
-                        testBeans.add(new TestBean());
-                    }
-                    mCallBack.success(testBeans);
-                }
-            });
+        @Override
+        public void onBind(Context context, int position, TestBean data) {
+            // 数据绑定
+            ShowImageUtils.showImageView(context, R.drawable.pic_notfound, data.getUrl(), mImageView);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mzBannerView.pause();//暂停轮播
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mzBannerView.start();//开始轮播
     }
 }

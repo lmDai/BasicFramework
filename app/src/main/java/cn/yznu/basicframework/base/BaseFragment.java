@@ -34,7 +34,6 @@ import me.yokeyword.fragmentation.SupportFragment;
 public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel> extends SupportFragment {
     public Toolbar mToolbar;
     public TextView title;
-    public View back;
     protected View rootView;
     public RxManager mRxManager;
     private Unbinder bind;
@@ -123,6 +122,10 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
         if (mPresenter != null) {
             mPresenter.mContext = this.getActivity();
         }
+        if (mPresenter != null && this instanceof BaseView) {
+            mPresenter.mContext = this.getActivity();
+            mPresenter.setVM(this, mModel);
+        }
         initView();
         SetStatusBarColor();
         mToolbar = rootView.findViewById(R.id.toolbar);
@@ -151,11 +154,6 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
                 }
             }
         }
-        if (mPresenter != null && this instanceof BaseView) {
-            mPresenter.mContext = this.getActivity();
-            mPresenter.setVM(this, mModel);
-        }
-
     }
 
     protected void onBackListener() {

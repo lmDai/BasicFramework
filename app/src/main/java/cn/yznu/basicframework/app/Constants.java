@@ -10,4 +10,6 @@ package cn.yznu.basicframework.app;
 public class Constants {
     public final static String WIDTH = "width";
     public final static String HEIGHT = "height";
+    public final static int PAGE_NUMBER = 1;
+    public final static int PAGE_SIZE = 10;
 }

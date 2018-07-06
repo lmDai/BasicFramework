@@ -4,6 +4,7 @@ import cn.yznu.basicframework.base.BaseResponse;
 import cn.yznu.basicframework.model.bean.TestBean;
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * 作者：uiho_mac
@@ -13,6 +14,7 @@ import retrofit2.http.GET;
  * 修订历史：
  */
 public interface ApiService {
-    @GET("system/sendCodeGovernment")
-    Flowable<BaseResponse<TestBean>> getListDict();
+    @GET("{type}/{pageSize}/{pageNumber}")
+    Flowable<BaseResponse<TestBean>> getGanks(@Path("type") String type, @Path("pageSize") String pageSize,
+                                              @Path("pageNumber") String pageNumber);
 }

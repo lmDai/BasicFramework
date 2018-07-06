@@ -73,7 +73,7 @@
     @butterknife.* <methods>;
 }
 ## butterknife end
-# Gson
+ #Gson
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
 #定义的实体类

@@ -8,68 +8,97 @@ package cn.yznu.basicframework.model.bean;
  * 修订历史：
  */
 public class TestBean {
+    /**
+     * _id : 5b27c7bf421aa923c0fbfda1
+     * createdAt : 2018-06-18T22:54:55.614Z
+     * desc : 2018-06-20
+     * publishedAt : 2018-06-20T00:00:00.0Z
+     * source : web
+     * type : 福利
+     * url : http://ww1.sinaimg.cn/large/0065oQSqly1fsfq1ykabxj30k00pracv.jpg
+     * used : true
+     * who : lijinshanmx
+     */
 
-    private String code;
-    private String gmtApply;
-    private String gmtBan;
-    private String gmtExpire;
-    private int id;
-    private String mobile;
-    private String userType;
+    private String _id;
+    private String createdAt;
+    private String desc;
+    private String publishedAt;
+    private String source;
+    private String type;
+    private String url;
+    private boolean used;
+    private String who;
 
-    public String getCode() {
-        return code;
+    public String get_id() {
+        return _id;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public String getGmtApply() {
-        return gmtApply;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setGmtApply(String gmtApply) {
-        this.gmtApply = gmtApply;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getGmtBan() {
-        return gmtBan;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setGmtBan(String gmtBan) {
-        this.gmtBan = gmtBan;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
-    public String getGmtExpire() {
-        return gmtExpire;
+    public String getPublishedAt() {
+        return publishedAt;
     }
 
-    public void setGmtExpire(String gmtExpire) {
-        this.gmtExpire = gmtExpire;
+    public void setPublishedAt(String publishedAt) {
+        this.publishedAt = publishedAt;
     }
 
-    public int getId() {
-        return id;
+    public String getSource() {
+        return source;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSource(String source) {
+        this.source = source;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getType() {
+        return type;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getUserType() {
-        return userType;
+    public String getUrl() {
+        return url;
     }
 
-    public void setUserType(String userType) {
-        this.userType = userType;
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public boolean isUsed() {
+        return used;
+    }
+
+    public void setUsed(boolean used) {
+        this.used = used;
+    }
+
+    public String getWho() {
+        return who;
+    }
+
+    public void setWho(String who) {
+        this.who = who;
     }
 }

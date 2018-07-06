@@ -2,6 +2,8 @@ package cn.yznu.basicframework.base.rxbase;
 
 import org.reactivestreams.Publisher;
 
+import java.util.List;
+
 import cn.yznu.basicframework.base.BaseResponse;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Flowable;
@@ -33,18 +35,16 @@ public class RxSchedulers {
         };
     }
 
-    public static <T> FlowableTransformer<BaseResponse<T>, T> handleResult() {
-        return new FlowableTransformer<BaseResponse<T>, T>() {
+    public static <T> FlowableTransformer<BaseResponse<T>, List<T>> handleResult() {
+        return new FlowableTransformer<BaseResponse<T>, List<T>>() {
             @Override
-            public Publisher<T> apply(Flowable<BaseResponse<T>> upstream) {
-                return upstream.flatMap(new Function<BaseResponse<T>, Publisher<T>>() {
+            public Publisher<List<T>> apply(Flowable<BaseResponse<T>> upstream) {
+                return upstream.flatMap(new Function<BaseResponse<T>, Publisher<List<T>>>() {
                     @Override
-                    public Publisher<T> apply(BaseResponse<T> tBaseResponse) {
+                    public Publisher<List<T>> apply(BaseResponse<T> tBaseResponse) {
                         if (tBaseResponse != null) {
-                            if (tBaseResponse.success()) {
-                                return createData(tBaseResponse.param);
-                            } else {
-                                return Flowable.error(new ApiException(tBaseResponse.status, tBaseResponse.message));
+                            if (!tBaseResponse.isError()) {
+                                return createData(tBaseResponse.getResults());
                             }
                         }
                         return Flowable.error(new ServerException("服务器错误"));
@@ -54,10 +54,10 @@ public class RxSchedulers {
         };
     }
 
-    private static <T> Flowable<T> createData(final T data) {
-        return Flowable.create(new FlowableOnSubscribe<T>() {
+    private static <T> Flowable<List<T>> createData(final List<T> data) {
+        return Flowable.create(new FlowableOnSubscribe<List<T>>() {
             @Override
-            public void subscribe(FlowableEmitter<T> subscriber) {
+            public void subscribe(FlowableEmitter<List<T>> subscriber) {
                 try {
                     subscriber.onNext(data);
                     subscriber.onComplete();

@@ -1,6 +1,7 @@
 package cn.yznu.basicframework.base;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 作者：uiho_mac
@@ -10,21 +11,31 @@ import java.io.Serializable;
  * 修订历史：
  */
 public class BaseResponse<T> implements Serializable {
-    public int status;
-    public String message;
 
-    public T param;
+    private boolean error;
+    private List<T> results;
 
-    public boolean success() {
-        return status == 200;
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public List<T> getResults() {
+        return results;
+    }
+
+    public void setResults(List<T> results) {
+        this.results = results;
     }
 
     @Override
     public String toString() {
-        return "BaseRespose{" +
-                "code='" + status + '\'' +
-                ", msg='" + message + '\'' +
-                ", data=" + param +
+        return "BaseResponse{" +
+                "error=" + error +
+                ", results=" + results +
                 '}';
     }
 }

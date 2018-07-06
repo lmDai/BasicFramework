@@ -21,9 +21,9 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
-            zipAlignEnabled true
-            shrinkResources true
+            minifyEnabled false
+            zipAlignEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.myConfig
         }
@@ -31,6 +31,7 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -40,6 +41,7 @@ dependencies {
     implementation project(':common')
     implementation rootProject.ext.dependencies["constraint"]
     implementation rootProject.ext.dependencies["appcompat-v7"]
+    implementation rootProject.ext.dependencies["cardview"]
     implementation rootProject.ext.dependencies["design"]
     implementation rootProject.ext.dependencies["recyclerview"]
     implementation rootProject.ext.dependencies["multidex"]
@@ -57,4 +59,5 @@ dependencies {
     implementation rootProject.ext.dependencies["fragmentation"]
     implementation rootProject.ext.dependencies["AdapterHelper"]
     implementation rootProject.ext.dependencies["bottom_navigation_bar"]
+    implementation rootProject.ext.dependencies["MZBannerView"]
 }

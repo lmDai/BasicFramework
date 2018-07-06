@@ -13,12 +13,13 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--主页-->
+
+        <!-- 主页 -->
         <activity
             android:name=".ui.activity.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" />
-        <!--启动页-->
+        <!-- 启动页 -->
         <activity
             android:name=".ui.activity.SplashActivity"
             android:screenOrientation="portrait"
@@ -29,5 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.DetailsActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
+
 </manifest>

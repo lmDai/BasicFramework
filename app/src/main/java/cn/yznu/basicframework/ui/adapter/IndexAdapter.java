@@ -1,6 +1,7 @@
 package cn.yznu.basicframework.ui.adapter;
 
 import android.support.annotation.Nullable;
+import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.model.bean.TestBean;
+import cn.yznu.basicframework.utils.Glide.ShowImageUtils;
 
 /**
  * 作者：uiho_mac
@@ -24,6 +26,9 @@ public class IndexAdapter extends BaseQuickAdapter<TestBean, BaseViewHolder> {
 
     @Override
     protected void convert(BaseViewHolder helper, TestBean item) {
-
+        helper.setText(R.id.txt_type, item.getType());
+        helper.setText(R.id.txt_date, item.getDesc());
+        ImageView imgHead = helper.getView(R.id.img_head);
+        ShowImageUtils.showImageView(mContext, R.drawable.pic_notfound, item.getUrl(), imgHead);
     }
 }
