@@ -1,9 +1,19 @@
 package cn.yznu.basicframework.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseFragment;
+import cn.yznu.basicframework.model.bean.TestBean;
+import cn.yznu.basicframework.ui.adapter.IndexAdapter;
 
 /**
  * 作者：uiho_mac
@@ -13,6 +23,11 @@ import cn.yznu.basicframework.base.BaseFragment;
  * 修订历史：
  */
 public class SecondFragment extends BaseFragment {
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    private IndexAdapter indexAdapter;
+
+
     public static SecondFragment newInstance() {
 
         Bundle bundle = new Bundle();
@@ -34,6 +49,13 @@ public class SecondFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        List<TestBean> data = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            data.add(new TestBean());
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        indexAdapter = new IndexAdapter(data);
+        indexAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        recyclerView.setAdapter(indexAdapter);
     }
 }

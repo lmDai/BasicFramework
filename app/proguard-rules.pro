@@ -33,21 +33,20 @@
 }
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
+
+# Retrofit
+-dontnote retrofit2.Platform
+-dontwarn retrofit2.Platform$Java8
+-keepattributes Signature
+-keepattributes Exceptions
 # OkHttp3
 -dontwarn okhttp3.logging.**
 -keep class okhttp3.internal.**{*;}
 -dontwarn okio.**
-# Retrofit
-# Platform calls Class.forName on types which do not exist on Android to determine platform.
--dontnote retrofit2.Platform
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
--dontwarn retrofit2.Platform$Java8
-# Retain generic type information for use by reflection by converters and adapters.
--keepattributes Signature
-# Retain declared checked exceptions for use by a Proxy instance.
--keepattributes Exceptions
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
+#Gson 自定义实体类
+-keep class cn.yznu.basicframework.model.bean.**{*;}
+-keep class cn.yznu.basicframework.base.**{*;}
+
 # RxJava RxAndroid
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
@@ -60,6 +59,7 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
 ## butterknife start
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -73,8 +73,23 @@
     @butterknife.* <methods>;
 }
 ## butterknife end
- #Gson
--keep class com.google.gson.stream.** { *; }
--keepattributes EnclosingMethod
-#定义的实体类
--keep class cn.yznu.basicframework.model.**{*;}
+
+# Glide
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+    **[] $VALUES;
+    public *;
+}
+
+# support-v7-appcompat
+-keep public class android.support.v7.widget.** { *; }
+-keep public class android.support.v7.internal.widget.** { *; }
+-keep public class android.support.v7.internal.view.menu.** { *; }
+-keep public class * extends android.support.v4.view.ActionProvider {
+    public <init>(android.content.Context);
+}
+# support-design
+-dontwarn android.support.design.**
+-keep class android.support.design.** { *; }
+-keep interface android.support.design.** { *; }
+-keep public class android.support.design.R$* { *; }

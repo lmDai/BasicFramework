@@ -27,6 +27,6 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        SetTranslanteBar();
+        setTopTitle("详情");
     }
 }
