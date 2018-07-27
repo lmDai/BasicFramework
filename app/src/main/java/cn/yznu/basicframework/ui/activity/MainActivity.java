@@ -14,6 +14,7 @@ import cn.yznu.basicframework.R;
 import cn.yznu.basicframework.base.BaseActivity;
 import cn.yznu.basicframework.ui.fragment.IndexFragment;
 import cn.yznu.basicframework.ui.fragment.SecondFragment;
+import cn.yznu.basicframework.ui.fragment.ThreeFragment;
 import cn.yznu.common.toasthelper.TastyToast;
 import cn.yznu.common.toasthelper.ToastHelper;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -27,7 +28,8 @@ public class MainActivity extends BaseActivity {
     private Long firstTime = 0L;
     private static final int INDEX = 0;
     private static final int SECOND = 1;
-    private SupportFragment[] mFragments = new SupportFragment[2];
+    private static final int THREE = 2;
+    private SupportFragment[] mFragments = new SupportFragment[3];
     private int mSelectPosition = 0, mCurrentPosition = 0;
 
     @Override
@@ -36,14 +38,17 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState == null) {
             mFragments[INDEX] = IndexFragment.newInstance();
             mFragments[SECOND] = SecondFragment.newInstance();
+            mFragments[THREE] = ThreeFragment.newInstance();
             loadMultipleRootFragment(R.id.content, INDEX,
                     mFragments[INDEX],
-                    mFragments[SECOND]);
+                    mFragments[SECOND],
+                    mFragments[THREE]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
             // 这里我们需要拿到mFragments的引用,也可以通过getChildFragmentManager.getFragments()自行进行判断查找(效率更高些),用下面的方法查找更方便些
             mFragments[INDEX] = findFragment(IndexFragment.class);
             mFragments[SECOND] = findFragment(SecondFragment.class);
+            mFragments[THREE] = findFragment(ThreeFragment.class);
         }
     }
 

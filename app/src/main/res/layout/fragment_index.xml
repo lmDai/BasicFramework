@@ -12,6 +12,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <cn.yznu.common.widget.Show3DView
+            android:id="@+id/show_view"
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_200"
+            android:layout_gravity="center" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipe_layout"
             android:layout_width="match_parent"

@@ -1,8 +1,11 @@
 package cn.yznu.basicframework.ui.fragment;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -39,6 +42,7 @@ import cn.yznu.basicframework.utils.IntentUtils;
 import cn.yznu.common.indicator.CircleIndicatorView;
 import cn.yznu.common.toasthelper.TastyToast;
 import cn.yznu.common.toasthelper.ToastHelper;
+import cn.yznu.common.widget.Show3DView;
 
 /**
  * 作者：uiho_mac
@@ -54,6 +58,8 @@ public class IndexFragment extends BaseFragment<HomePresenter, HomeModel> implem
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout swipeLayout;
     MZBannerView mzBannerView;
+    @BindView(R.id.show_view)
+    Show3DView show3DView;
     public static final int HOME_ENTRANCE_PAGE_SIZE = 10;//首页菜单单页显示数量
     ViewPager entranceViewPager;
     CircleIndicatorView entranceIndicatorView;
@@ -116,15 +122,43 @@ public class IndexFragment extends BaseFragment<HomePresenter, HomeModel> implem
         entranceViewPager = headView.findViewById(R.id.main_home_entrance_vp);
         entranceIndicatorView = headView.findViewById(R.id.main_home_entrance_indicator);
         List<TestBean> testBeans = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i <= 70; i++) {
             TestBean testBean = new TestBean();
             testBean.setUrl("http://ww1.sinaimg.cn/large/0065oQSqly1frv032vod8j30k80q6gsz.jpg");
             testBeans.add(testBean);
         }
+
+        show3DView.init(getImages(), 15, 10, 2, 100);
         setBanner(testBeans);
         initIndicatorData();
         init();
         indexAdapter.addHeaderView(headView);
+    }
+
+    private ArrayList<String> getImages() {
+        ArrayList<String> pics = new ArrayList<>();
+        pics.add(getResourcesUri(R.drawable.pic1));
+        pics.add(getResourcesUri(R.drawable.pic2));
+        pics.add(getResourcesUri(R.drawable.pic3));
+        pics.add(getResourcesUri(R.drawable.pic4));
+        pics.add(getResourcesUri(R.drawable.pic5));
+        pics.add(getResourcesUri(R.drawable.pic6));
+        pics.add(getResourcesUri(R.drawable.pic7));
+        pics.add(getResourcesUri(R.drawable.pic8));
+        pics.add(getResourcesUri(R.drawable.pic9));
+        pics.add(getResourcesUri(R.drawable.pic10));
+        pics.add(getResourcesUri(R.drawable.pic11));
+        pics.add(getResourcesUri(R.drawable.pic12));
+        return pics;
+    }
+
+    private String getResourcesUri(@DrawableRes int id) {
+        Resources resources = getResources();
+        String uriPath = ContentResolver.SCHEME_ANDROID_RESOURCE + "://" +
+                resources.getResourcePackageName(id) + "/" +
+                resources.getResourceTypeName(id) + "/" +
+                resources.getResourceEntryName(id);
+        return uriPath;
     }
 
     //初始化首页indicator数据
@@ -187,6 +221,7 @@ public class IndexFragment extends BaseFragment<HomePresenter, HomeModel> implem
 
     @Override
     public void setData(boolean isRefresh, final List data) {
+
         final int size = data == null ? 0 : data.size();
         if (isRefresh) {
             swipeLayout.setRefreshing(false);
