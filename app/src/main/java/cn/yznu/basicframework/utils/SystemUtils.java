@@ -3,6 +3,12 @@ package cn.yznu.basicframework.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+
+import cn.yznu.basicframework.R;
+import cn.yznu.basicframework.app.AppManager;
+import cn.yznu.common.dialog.SuperDialog;
 
 /**
  * 作者：uiho_mac
@@ -79,5 +85,26 @@ public class SystemUtils {
 
     public static int getScreenWidth() {
         return screenWidth;
+    }
+
+    /**
+     * 退出程序
+     *
+     * @param context 上下文
+     */
+    public static void Exit(final AppCompatActivity context) {
+
+        new SuperDialog.Builder(context).setRadius(10)
+                .setWidth(0.80f)
+                .setBackgroundColor(context.getResources().getColor(R.color.color_white))
+                .setTitle(context.getResources().getString(R.string.str_info))
+                .setMessage(context.getResources().getString(R.string.str_exit))
+                .setNegativeButton(context.getResources().getString(R.string.str_wander), null)
+                .setPositiveButton(context.getResources().getString(R.string.str_ensure), new SuperDialog.OnClickPositiveListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AppManager.getAppManager().AppExit(context, false);
+                    }
+                }).build();
     }
 }

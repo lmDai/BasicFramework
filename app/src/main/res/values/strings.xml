@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">BasicFramework</string>
+    <string name="str_palm">掌上宝骏</string>
+    <string name="str_service">生活服务</string>
+    <string name="str_business">金融商场</string>
+    <string name="str_social">车友社交</string>
+    <string name="str_exit">确定退出凌云志航吗？</string>
     <string name="no_net">无网络连接</string>
     <string name="net_error">网络错误</string>
     <string name="loading">加载中…</string>
@@ -23,4 +28,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="str_ensure">确定</string>
+    <string name="str_wander">再逛逛</string>
+    <string name="str_info">提示</string>
+
 </resources>

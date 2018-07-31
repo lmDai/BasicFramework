@@ -19,7 +19,6 @@
         android:layout_height="?attr/actionBarSize"
         android:layout_gravity="bottom"
         android:background="@color/color_white"
-        android:clickable="false"
         app:tl_indicator_color="@color/color_orange"
         app:tl_tab_space_equal="true"
         app:tl_textAllCaps="true"
